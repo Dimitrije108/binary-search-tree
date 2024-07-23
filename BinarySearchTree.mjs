@@ -73,20 +73,20 @@ const Tree = (arr) => {
     }
   };
 
-  // const levelOrder = (callback) => {
-  //   if (typeof callback !== "function") {
-  //     throw new Error("Callback function required");
-  //   }
+  const levelOrder = (callback) => {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function required");
+    }
 
-  //   const queue = [root];
+    const queue = [root];
 
-  //   while (queue.length > 0) {
-  //     const node = queue.shift();
-  //     callback(node);
-  //     if (node.getLeft() !== null) queue.push(node.getLeft());
-  //     if (node.getRight() !== null) queue.push(node.getRight());
-  //   }
-  // };
+    while (queue.length > 0) {
+      const node = queue.shift();
+      callback(node);
+      if (node.getLeft() !== null) queue.push(node.getLeft());
+      if (node.getRight() !== null) queue.push(node.getRight());
+    }
+  };
 
   const deleteItem = (value) => {
     // 1. delete a leaf node
@@ -97,6 +97,7 @@ const Tree = (arr) => {
   return {
     root,
     insert,
+    levelOrder,
   };
 };
 // Used for console printing the balanced BST results
@@ -117,7 +118,7 @@ const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 test.insert(2);
 console.log(test.insert(6345));
 console.log(prettyPrint(test.root));
-levelOrder((node) => console.log(node));
+test.levelOrder((node) => console.log(node.getValue()));
 
 // deleteItem(value)
 // How: traverse the tree and manipulate the nodes and their connections

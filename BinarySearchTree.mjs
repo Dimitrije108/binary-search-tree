@@ -31,6 +31,7 @@ const removeDuplicates = (arr) => {
 };
 // Sorts and deletes array item duplicates and returns a balanced BST
 const Tree = (arr) => {
+  if (arr.length === 0 || !Array.isArray(arr)) return "Invalid call";
   // Get a sorted array without duplicates
   const array = removeDuplicates(arr.sort((a, b) => a - b));
   // Create a balanced BST with a sorted array, return the root node
@@ -44,9 +45,59 @@ const Tree = (arr) => {
     // Return the level-0 root node
     return root;
   };
-  // Call to create and return a balanced BST
+
   const root = buildTree(array, 0, array.length - 1);
-  return root;
+
+  const insert = (value) => {
+    let curr = root;
+    let prev = null;
+    // Check for a duplicate value, then find where to insert
+    // the new value
+    while (curr !== null) {
+      if (curr.getValue() === value) {
+        return "Duplicate value";
+      }
+      if (curr.getValue() > value) {
+        prev = curr;
+        curr = curr.getLeft();
+      } else {
+        prev = curr;
+        curr = curr.getRight();
+      }
+    }
+
+    if (prev.getValue() > value) {
+      prev.setLeft(Node(value));
+    } else {
+      prev.setRight(Node(value));
+    }
+  };
+
+  // const levelOrder = (callback) => {
+  //   if (typeof callback !== "function") {
+  //     throw new Error("Callback function required");
+  //   }
+
+  //   const queue = [root];
+
+  //   while (queue.length > 0) {
+  //     const node = queue.shift();
+  //     callback(node);
+  //     if (node.getLeft() !== null) queue.push(node.getLeft());
+  //     if (node.getRight() !== null) queue.push(node.getRight());
+  //   }
+  // };
+
+  const deleteItem = (value) => {
+    // 1. delete a leaf node
+    // 2. delete a node with single child
+    // 3. delete a node with both children
+  };
+
+  return {
+    root,
+    insert,
+  };
 };
 // Used for console printing the balanced BST results
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -62,7 +113,11 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-// let testArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-console.log(
-  prettyPrint(Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]))
-);
+const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+test.insert(2);
+console.log(test.insert(6345));
+console.log(prettyPrint(test.root));
+levelOrder((node) => console.log(node));
+
+// deleteItem(value)
+// How: traverse the tree and manipulate the nodes and their connections

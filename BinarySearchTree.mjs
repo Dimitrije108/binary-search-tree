@@ -47,7 +47,7 @@ const Tree = (arr) => {
   };
 
   const root = buildTree(array, 0, array.length - 1);
-
+  // Insert a given value
   const insert = (value) => {
     let curr = root;
     let prev = null;
@@ -71,9 +71,9 @@ const Tree = (arr) => {
       prev.setRight(Node(value));
     }
   };
-
+  // Delete a given value
   const deleteItem = (value) => {
-    if (root === null) return;
+    if (root === null) return "Tree is empty";
     let curr = root;
     let prev = null;
     let dir = null;
@@ -89,7 +89,7 @@ const Tree = (arr) => {
       }
     }
     // Node not found
-    if (!curr) return;
+    if (!curr) return "Value not found";
     // Delete the node - 3 scenarios
     // 1. Node has 2 children
     if (curr.getLeft() && curr.getRight()) {
@@ -124,6 +124,21 @@ const Tree = (arr) => {
         prev.setRight(null);
       }
     }
+  };
+  // Return the node with a given value
+  const find = (value) => {
+    if (root === null) return "Tree is empty";
+    let curr = root;
+    // Find the value
+    while (curr !== null) {
+      if (curr.getValue() === value) return curr;
+      if (curr.getValue() > value) {
+        curr = curr.getLeft();
+      } else {
+        curr = curr.getRight();
+      }
+    }
+    return "Value not found";
   };
 
   const levelOrder = (callback) => {
@@ -216,6 +231,7 @@ const Tree = (arr) => {
     root,
     insert,
     deleteItem,
+    find,
     levelOrder,
     levelOrderRec,
     preOrder,
@@ -240,9 +256,11 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // test.insert(2);
 // console.log(test.insert(6345));
-console.log(prettyPrint(test.root));
-test.deleteItem(8);
-console.log(prettyPrint(test.root));
+// console.log(prettyPrint(test.root));
+// test.deleteItem(8);
+// console.log(prettyPrint(test.root));
+const node = test.find(324);
+console.log(node.getValue());
 // test.levelOrder((node) => console.log(node.getValue()));
 // test.levelOrderRec((node) => console.log(node.getValue()));
 // test.inOrder((node) => console.log(node.getValue()));

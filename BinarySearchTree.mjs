@@ -118,11 +118,61 @@ const Tree = (arr) => {
     return treeRec([root]);
   };
 
+  // inOrder(callback), preOrder(callback), and postOrder(callback)
+
+  const inOrder = (callback) => {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function required");
+    }
+    if (root === null) return;
+
+    const inOrderRec = (node) => {
+      if (node === null) return;
+      inOrderRec(node.getLeft());
+      callback(node);
+      inOrderRec(node.getRight());
+    };
+    return inOrderRec(root);
+  };
+
+  const preOrder = (callback) => {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function required");
+    }
+    if (root === null) return;
+
+    const preOrderRec = (node) => {
+      if (node === null) return;
+      callback(node);
+      preOrderRec(node.getLeft());
+      preOrderRec(node.getRight());
+    };
+    return preOrderRec(root);
+  };
+
+  const postOrder = (callback) => {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function required");
+    }
+    if (root === null) return;
+
+    const postOrderRec = (node) => {
+      if (node === null) return;
+      postOrderRec(node.getLeft());
+      postOrderRec(node.getRight());
+      callback(node);
+    };
+    return postOrderRec(root);
+  };
+
   return {
     root,
     insert,
     levelOrder,
     levelOrderRec,
+    preOrder,
+    inOrder,
+    postOrder,
   };
 };
 // Used for console printing the balanced BST results
@@ -144,4 +194,7 @@ const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // console.log(test.insert(6345));
 // console.log(prettyPrint(test.root));
 // test.levelOrder((node) => console.log(node.getValue()));
-test.levelOrderRec((node) => console.log(node.getValue()));
+// test.levelOrderRec((node) => console.log(node.getValue()));
+// test.inOrder((node) => console.log(node.getValue()));
+// test.preOrder((node) => console.log(node.getValue()));
+test.postOrder((node) => console.log(node.getValue()));

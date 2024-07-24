@@ -57,11 +57,10 @@ const Tree = (arr) => {
       if (curr.getValue() === value) {
         return "Duplicate value";
       }
+      prev = curr;
       if (curr.getValue() > value) {
-        prev = curr;
         curr = curr.getLeft();
       } else {
-        prev = curr;
         curr = curr.getRight();
       }
     }
@@ -74,9 +73,57 @@ const Tree = (arr) => {
   };
 
   const deleteItem = (value) => {
-    // 1. delete a leaf node
-    // 2. delete a node with single child
-    // 3. delete a node with both children
+    if (root === null) return;
+    let curr = root;
+    let prev = null;
+    let dir = null;
+    // Find the value
+    while (curr.getValue() !== value) {
+      prev = curr;
+      if (curr.getValue() > value) {
+        curr = curr.getLeft();
+        dir = "left";
+      } else {
+        curr = curr.getRight();
+        dir = "right";
+      }
+    }
+    // Node not found
+    if (!curr) return;
+    // Delete the node - 3 scenarios
+    // 1. Node has 2 children
+    if (curr.getLeft() && curr.getRight()) {
+      // Find replacement value(smallest bigger value)
+      let replacement = curr.getRight();
+      while (replacement.getLeft() !== null) {
+        replacement = replacement.getLeft();
+      }
+      const replacementVal = replacement.getValue();
+      // Delete the replacement node
+      deleteItem(replacementVal);
+      // Replace value
+      curr.setValue(replacementVal);
+      return;
+    }
+    const child = curr.getLeft() ? curr.getLeft() : curr.getRight();
+    if (!prev) {
+      root = child;
+    }
+    if (curr.getLeft() || curr.getRight()) {
+      // 2. Node has 1 child
+      if (dir === "left") {
+        prev.setLeft(child);
+      } else {
+        prev.setRight(child);
+      }
+    } else {
+      // 3. Node has no children
+      if (dir === "left") {
+        prev.setLeft(null);
+      } else {
+        prev.setRight(null);
+      }
+    }
   };
 
   const levelOrder = (callback) => {
@@ -168,6 +215,7 @@ const Tree = (arr) => {
   return {
     root,
     insert,
+    deleteItem,
     levelOrder,
     levelOrderRec,
     preOrder,
@@ -192,9 +240,11 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // test.insert(2);
 // console.log(test.insert(6345));
-// console.log(prettyPrint(test.root));
+console.log(prettyPrint(test.root));
+test.deleteItem(8);
+console.log(prettyPrint(test.root));
 // test.levelOrder((node) => console.log(node.getValue()));
 // test.levelOrderRec((node) => console.log(node.getValue()));
 // test.inOrder((node) => console.log(node.getValue()));
 // test.preOrder((node) => console.log(node.getValue()));
-test.postOrder((node) => console.log(node.getValue()));
+// test.postOrder((node) => console.log(node.getValue()));

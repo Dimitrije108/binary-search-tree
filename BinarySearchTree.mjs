@@ -236,22 +236,22 @@ const Tree = (arr) => {
     return Math.max(leftHeight, rightHeight) + 1;
   };
 
-  // const depth = (node) => {
-  //   if (root === null) return -1;
-  //   let curr = root;
-  //   let depth = 0;
-  //   // Find the node and calculate the steps
-  //   while (curr !== null) {
-  //     if (curr === node) return depth;
-  //     if (curr.getValue() > node.getValue()) {
-  //       curr = curr.getLeft();
-  //     } else {
-  //       curr = curr.getRight();
-  //     }
-  //     depth += 1;
-  //   }
-  //   return -1;
-  // };
+  const depth = (node) => {
+    if (root === null) return -1;
+    let curr = root;
+    let depth = 0;
+    // Find the node and calculate the steps
+    while (curr !== null) {
+      if (curr === node) return depth;
+      if (curr.getValue() > node.getValue()) {
+        curr = curr.getLeft();
+      } else {
+        curr = curr.getRight();
+      }
+      depth += 1;
+    }
+    return -1;
+  };
 
   // const isBalanced = () => {
   //   if (root === null) return true;
@@ -291,7 +291,7 @@ const Tree = (arr) => {
     inOrder,
     postOrder,
     height,
-    // depth,
+    depth,
     // isBalanced,
     // rebalance,
   };

@@ -253,24 +253,24 @@ const Tree = (arr) => {
     return -1;
   };
 
-  // const isBalanced = () => {
-  //   if (root === null) return true;
+  const isBalanced = () => {
+    if (root === null) return true;
 
-  //   const isBalancedRec = (node) => {
-  //     if (node === null) return 0;
+    const isBalancedRec = (node) => {
+      if (node === null) return 0;
 
-  //     const leftHeight = isBalancedRec(node.getLeft());
-  //     const rightHeight = isBalancedRec(node.getRight());
+      const leftHeight = isBalancedRec(node.getLeft());
+      const rightHeight = isBalancedRec(node.getRight());
 
-  //     if (leftHeight - rightHeight > 1 || rightHeight - leftHeight > 1) {
-  //       return -1;
-  //     }
+      if (leftHeight - rightHeight > 1 || rightHeight - leftHeight > 1) {
+        return -1;
+      }
 
-  //     return Math.max(leftHeight, rightHeight) + 1;
-  //   };
+      return Math.max(leftHeight, rightHeight) + 1;
+    };
 
-  //   return isBalancedRec(root) !== -1;
-  // };
+    return isBalancedRec(root) !== -1;
+  };
 
   // const rebalance = () => {
   //   let nodeArr = [];
@@ -292,7 +292,7 @@ const Tree = (arr) => {
     postOrder,
     height,
     depth,
-    // isBalanced,
+    isBalanced,
     // rebalance,
   };
 };

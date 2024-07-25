@@ -227,6 +227,59 @@ const Tree = (arr) => {
     return postOrderRec(root);
   };
 
+  const height = (node) => {
+    if (node === null) return -1;
+
+    const leftHeight = height(node.getLeft());
+    const rightHeight = height(node.getRight());
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  };
+
+  // const depth = (node) => {
+  //   if (root === null) return -1;
+  //   let curr = root;
+  //   let depth = 0;
+  //   // Find the node and calculate the steps
+  //   while (curr !== null) {
+  //     if (curr === node) return depth;
+  //     if (curr.getValue() > node.getValue()) {
+  //       curr = curr.getLeft();
+  //     } else {
+  //       curr = curr.getRight();
+  //     }
+  //     depth += 1;
+  //   }
+  //   return -1;
+  // };
+
+  // const isBalanced = () => {
+  //   if (root === null) return true;
+
+  //   const isBalancedRec = (node) => {
+  //     if (node === null) return 0;
+
+  //     const leftHeight = isBalancedRec(node.getLeft());
+  //     const rightHeight = isBalancedRec(node.getRight());
+
+  //     if (leftHeight - rightHeight > 1 || rightHeight - leftHeight > 1) {
+  //       return -1;
+  //     }
+
+  //     return Math.max(leftHeight, rightHeight) + 1;
+  //   };
+
+  //   return isBalancedRec(root) !== -1;
+  // };
+
+  // const rebalance = () => {
+  //   let nodeArr = [];
+  //   root.inOrder((node) => nodeArr.push(node));
+  //   nodeArr.sort((a, b) => a - b);
+
+  //   buildTree(nodeArr, 0, nodeArr.length - 1);
+  // };
+
   return {
     root,
     insert,
@@ -237,6 +290,10 @@ const Tree = (arr) => {
     preOrder,
     inOrder,
     postOrder,
+    height,
+    // depth,
+    // isBalanced,
+    // rebalance,
   };
 };
 // Used for console printing the balanced BST results
@@ -259,10 +316,15 @@ const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // console.log(prettyPrint(test.root));
 // test.deleteItem(8);
 // console.log(prettyPrint(test.root));
-const node = test.find(324);
-console.log(node.getValue());
+// const node = test.find(324);
+// console.log(node.getValue());
 // test.levelOrder((node) => console.log(node.getValue()));
 // test.levelOrderRec((node) => console.log(node.getValue()));
 // test.inOrder((node) => console.log(node.getValue()));
 // test.preOrder((node) => console.log(node.getValue()));
 // test.postOrder((node) => console.log(node.getValue()));
+console.log(test.insert(37));
+console.log(test.height(test.root));
+console.log(test.depth(test.root));
+console.log(test.isBalanced());
+console.log(prettyPrint(test.root));

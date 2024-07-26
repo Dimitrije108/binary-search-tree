@@ -13,10 +13,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.getLeft(), `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-
+// Array of given length filled with random numbers < 100
 const arrRandomizer = (length) => {
   const arr = [];
-  // Array of given length filled with random numbers < 100
   for (let i = 0; i < length; i++) {
     arr.push(Math.floor(Math.random() * 100));
   }

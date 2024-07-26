@@ -31,7 +31,8 @@ const removeDuplicates = (arr) => {
 };
 // Sorts and deletes array item duplicates and returns a balanced BST
 const Tree = (arr) => {
-  if (arr.length === 0 || !Array.isArray(arr)) return "Invalid call";
+  if (arr.length === 0 || !Array.isArray(arr))
+    throw new Error("Valid array required");
   // Get a sorted array without duplicates
   const array = removeDuplicates(arr.sort((a, b) => a - b));
   // Create a balanced BST with a sorted array, return the root node
@@ -46,7 +47,9 @@ const Tree = (arr) => {
     return root;
   };
 
-  const root = buildTree(array, 0, array.length - 1);
+  let root = buildTree(array, 0, array.length - 1);
+
+  const getRoot = () => root;
   // Insert a given value
   const insert = (value) => {
     let curr = root;
@@ -255,33 +258,33 @@ const Tree = (arr) => {
 
   const isBalanced = () => {
     if (root === null) return true;
+    let result = true;
 
     const isBalancedRec = (node) => {
       if (node === null) return 0;
 
       const leftHeight = isBalancedRec(node.getLeft());
       const rightHeight = isBalancedRec(node.getRight());
-
+      // If any of the compared node's height is greater by more than 1 the tree is unbalanced
       if (leftHeight - rightHeight > 1 || rightHeight - leftHeight > 1) {
-        return -1;
+        result = false;
       }
 
       return Math.max(leftHeight, rightHeight) + 1;
     };
-
-    return isBalancedRec(root) !== -1;
+    isBalancedRec(root);
+    return result;
   };
 
-  // const rebalance = () => {
-  //   let nodeArr = [];
-  //   root.inOrder((node) => nodeArr.push(node));
-  //   nodeArr.sort((a, b) => a - b);
+  const rebalance = () => {
+    const nodeArr = [];
+    inOrder((node) => nodeArr.push(node.getValue()));
 
-  //   buildTree(nodeArr, 0, nodeArr.length - 1);
-  // };
+    root = buildTree(nodeArr, 0, nodeArr.length - 1);
+  };
 
   return {
-    root,
+    getRoot,
     insert,
     deleteItem,
     find,
@@ -293,7 +296,7 @@ const Tree = (arr) => {
     height,
     depth,
     isBalanced,
-    // rebalance,
+    rebalance,
   };
 };
 // Used for console printing the balanced BST results
@@ -311,6 +314,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+const test2 = Tree([2, 7, 4, 23, 9, 4, 7, 9, 67, 6345, 324, 36]);
 // test.insert(2);
 // console.log(test.insert(6345));
 // console.log(prettyPrint(test.root));
@@ -323,8 +327,12 @@ const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // test.inOrder((node) => console.log(node.getValue()));
 // test.preOrder((node) => console.log(node.getValue()));
 // test.postOrder((node) => console.log(node.getValue()));
-console.log(test.insert(37));
-console.log(test.height(test.root));
-console.log(test.depth(test.root));
-console.log(test.isBalanced());
-console.log(prettyPrint(test.root));
+console.log(test2.insert(1));
+console.log(test2.insert(8));
+console.log(test2.height(test2.getRoot()));
+console.log(test2.depth(test2.getRoot()));
+console.log(test2.isBalanced());
+console.log(prettyPrint(test2.getRoot()));
+console.log(test2.rebalance());
+console.log(test2.isBalanced());
+console.log(prettyPrint(test2.getRoot()));

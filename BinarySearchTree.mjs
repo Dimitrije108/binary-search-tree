@@ -30,7 +30,7 @@ const removeDuplicates = (arr) => {
   return unique;
 };
 // Sorts and deletes array item duplicates and returns a balanced BST
-const Tree = (arr) => {
+export default function Tree(arr) {
   if (arr.length === 0 || !Array.isArray(arr))
     throw new Error("Valid array required");
   // Get a sorted array without duplicates
@@ -183,8 +183,6 @@ const Tree = (arr) => {
     return treeRec([root]);
   };
 
-  // inOrder(callback), preOrder(callback), and postOrder(callback)
-
   const inOrder = (callback) => {
     if (typeof callback !== "function") {
       throw new Error("Callback function required");
@@ -279,7 +277,6 @@ const Tree = (arr) => {
   const rebalance = () => {
     const nodeArr = [];
     inOrder((node) => nodeArr.push(node.getValue()));
-
     root = buildTree(nodeArr, 0, nodeArr.length - 1);
   };
 
@@ -298,41 +295,4 @@ const Tree = (arr) => {
     isBalanced,
     rebalance,
   };
-};
-// Used for console printing the balanced BST results
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.getRight() !== null) {
-    prettyPrint(node.getRight(), `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.getValue()}`);
-  if (node.getLeft() !== null) {
-    prettyPrint(node.getLeft(), `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
-const test = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-const test2 = Tree([2, 7, 4, 23, 9, 4, 7, 9, 67, 6345, 324, 36]);
-// test.insert(2);
-// console.log(test.insert(6345));
-// console.log(prettyPrint(test.root));
-// test.deleteItem(8);
-// console.log(prettyPrint(test.root));
-// const node = test.find(324);
-// console.log(node.getValue());
-// test.levelOrder((node) => console.log(node.getValue()));
-// test.levelOrderRec((node) => console.log(node.getValue()));
-// test.inOrder((node) => console.log(node.getValue()));
-// test.preOrder((node) => console.log(node.getValue()));
-// test.postOrder((node) => console.log(node.getValue()));
-console.log(test2.insert(1));
-console.log(test2.insert(8));
-console.log(test2.height(test2.getRoot()));
-console.log(test2.depth(test2.getRoot()));
-console.log(test2.isBalanced());
-console.log(prettyPrint(test2.getRoot()));
-console.log(test2.rebalance());
-console.log(test2.isBalanced());
-console.log(prettyPrint(test2.getRoot()));
+}
